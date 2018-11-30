@@ -8,6 +8,9 @@ pip3 install -U requests
 
 pip3 install -U allure-pytest
 
+### 打印所需模块
+pip3 install termcolor
+
 <!-- 经测试，不要使用以下插件 -->
 <!-- pip3 install -U pytest-allure-adaptor -->
 
@@ -18,6 +21,8 @@ pip3 uninstall pytest
 pip3 uninstall requests
 
 pip3 uninstall allure-pytest
+
+pip3 uninstall termcolor
 
 <!-- 经测试，不要使用以下插件 -->
 <!-- pip3 uninstall pytest-allure-adaptor -->

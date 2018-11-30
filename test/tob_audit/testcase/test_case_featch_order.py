@@ -55,7 +55,7 @@ def test_order_fatch():
     订单推送
     """
     headers = {}
-    headers['Authoration'] = token
+    headers['Authorization'] = token
 
     print('headers is ', headers)
 
@@ -64,7 +64,7 @@ def test_order_fatch():
     audit_add_api = 'http://' + tob_audit_host +\
         ':' + tob_audit_port + UriEnums.FETCH_ORDER
 
-    r = requests.post(audit_add_api, json=params, headers=headers)
+    r = requests.get(audit_add_api, json=params, headers=headers)
 
     if r.status_code == 200:
         res_json = r.json()
