@@ -2,6 +2,9 @@
 
 import requests
 
+from test.bitan_test.utils import RandomPhone
+from test.bitan_test.utils.RandomPhone import create_phone
+
 # 定义头信息
 headers = {'Accept': 'application/json',
            'Content-Type': 'application/json',
@@ -14,7 +17,7 @@ headers = {'Accept': 'application/json',
 
 def init_captcha():
     # 定义参数
-    params = {'account': '18268040361',
+    params = {'account': RandomPhone.phone,
               'countryCode': '+86',
               'sendType': '1',
               'messageType': '2',
@@ -22,10 +25,11 @@ def init_captcha():
 
     url = "http://183.129.150.2:8777/oauth/oauth-rest/send-captcha"
     r = requests.get(url, params, headers=headers)
+    print(headers)
+    print(r)
     if r.status_code == 200:
         res_json = r.json()
         code = res_json['code']
-
         if code == 0:
             print('init code success')
         else:
@@ -40,7 +44,7 @@ def init_token():
     :return:
     """
     # 定义参数
-    params = {'mobile': '18268040361',
+    params = {'mobile': RandomPhone.phone,
               'captcha': '123456',
               'countryCode': '+86',
               'inviterCode': '',
@@ -64,7 +68,6 @@ def init_token():
             raise Exception('get token code error')
     else:
         raise Exception('get token status code error')
-
 
 
 def init_params():
