@@ -7,7 +7,7 @@ def multiply(a, b):
     return a * b
 
 
-# ===============fixfures================
+# ===============fixtures================
 def setup_module(module):
     print('setup_module called')
 
