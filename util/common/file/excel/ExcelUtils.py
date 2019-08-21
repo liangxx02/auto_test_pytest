@@ -64,6 +64,30 @@ def get_filter_data(file_path, filter_str='N', sheet_index=0):
     return data_keys, data_rows
 
 
+def get_tailor_data(data, tailor_start=0, tailor_end=0):
+    """
+    获取剪裁过的数据，
+    例如
+    ['A', 'B', 'C', 'D', '是否可用'] [1.0, 2.0, 3.0, 4.0, 'N'] [2.0, 3.0, 4.0, 5.0, 'Y']
+    剪裁成 0, -1
+    如 ['A', 'B', 'C', 'D'] [1.0, 2.0, 3.0, 4.0] [2.0, 3.0, 4.0, 5.0]
+    剪裁成 0, -2
+    如 ['A', 'B', 'C'] [1.0, 2.0, 3.0] [2.0, 3.0, 4.0]
+    剪裁成 1, -2
+    如 ['B', 'C'] [2.0, 3.0] [3.0, 4.0]
+
+    :param tailor_end: 开始
+    :param tailor_start: 结束
+    :param data:
+    :return:
+    """
+    data_tailor = []
+    for item in data:
+        item_tmp = item[tailor_start:tailor_end]
+        data_tailor.append(item_tmp)
+    return data_tailor
+
+
 def test_load_excel():
     """
     测试读取excel方法
@@ -76,7 +100,28 @@ def test_load_excel():
 
 
 def test_filter_data():
+    """
+    测试过滤数据
+    :return:
+    """
     file_path = '/Users/yandongjun/Documents/workspace/private/auto_test_pytest/test/test_files/test.xlsx'
     data_keys, data_rows = get_filter_data(file_path=file_path)
     print('\ndata_keys is ', data_keys)
     print('\ndata_rows is ', data_rows)
+
+
+def test_tailor_data():
+    """
+    测试剪裁数组
+    :return:
+    """
+    file_path = '/Users/yandongjun/Documents/workspace/private/auto_test_pytest/test/test_files/test.xlsx'
+    data_keys, data_rows = get_filter_data(file_path=file_path)
+    data_keys_tailor1 = get_tailor_data(data_rows, 0, -1)
+    print('data_keys_tailor1 is ', data_keys_tailor1)
+    data_keys_tailor2 = get_tailor_data(data_rows, 0, -2)
+    print('data_keys_tailor2 is ', data_keys_tailor2)
+    data_keys_tailor3 = get_tailor_data(data_rows, 1, -1)
+    print('data_keys_tailor3 is ', data_keys_tailor3)
+    data_keys_tailor4 = get_tailor_data(data_rows, 1, -2)
+    print('data_keys_tailor4 is ', data_keys_tailor4)

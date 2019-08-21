@@ -2,6 +2,17 @@ import pymysql
 from DBUtils.PooledDB import PooledDB
 
 
+def commit(conn):
+    """
+    提交事务
+    :param conn:
+    :return:
+    """
+    conn.commit()
+    # 这里close不是真的close了，是还回去了
+    conn.close()
+
+
 class MysqlHelper(object):
     def __init__(self, user_name, password, database, host, port=3306):
         print('init user_name is ', user_name, ' password is ', password, ' database is ', database, ' host is ', host,
@@ -25,27 +36,25 @@ class MysqlHelper(object):
         )
 
     def insert_batch(self, sql, params=[]):
+        """
+        批量插入数据
+        :param sql:
+        :param params:
+        :return:
+        """
         conn = self.POOL.connection()
         cursor = conn.cursor()
         cursor.executemany(sql, params)
-        self.commit(conn)
+        commit(conn)
 
-    def commit(self, conn):
-        conn.commit()
-        # 这里close不是真的close了，是还回去了
-        conn.close()
-
-    # 查询所有字段
-    def list_col(self, table_name):
+    def insert(self, sql, param=[]):
+        """
+        单个插入
+        :param sql:
+        :param param:
+        :return:
+        """
         conn = self.POOL.connection()
         cursor = conn.cursor()
-        cursor.execute("select * from %s" % table_name)
-        col_name_list = [tuple[0] for tuple in cursor.description]
-        return col_name_list
-
-    def list_table(self, ):
-        conn = self.POOL.connection()
-        cursor = conn.cursor()
-        cursor.execute("show tables")
-        table_list = [tuple[0] for tuple in cursor.fetchall()]
-        return table_list
+        cursor.execute(sql, param)
+        commit(conn)
